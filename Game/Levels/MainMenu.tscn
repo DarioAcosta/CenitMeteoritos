@@ -1,0 +1,12 @@
+[gd_scene format=2]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Button" type="Button" parent="."]
+anchor_right = 0.155
+anchor_bottom = 0.107
+margin_left = 427.0
+margin_top = 261.0
+margin_right = 427.28
+margin_bottom = 261.8
+text = "Iniciar"
