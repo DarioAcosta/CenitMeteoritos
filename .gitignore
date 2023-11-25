@@ -13,5 +13,5 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
-.Game/TemporalAssets/
+Game/TemporalAssets/
 Game/TemporalAssets/.DS_Store
