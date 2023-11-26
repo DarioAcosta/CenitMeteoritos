@@ -24,6 +24,7 @@ func _physics_process(delta):
 func crear (pos:Vector2, dir:float, vel:float, danio_p:int)->void:
 	position=pos
 	rotation=dir
+	danio=danio_p
 	velocidad=Vector2(vel,0).rotated(dir)
 
 

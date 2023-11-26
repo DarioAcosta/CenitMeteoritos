@@ -45,7 +45,7 @@ func disparar():
 	for punto_disparo in puntos_disparo:
 		var new_proyectil=proyectil.instance()
 		new_proyectil.crear(punto_disparo.global_position,
-		(get_owner().rotation+1.5708),
+		(get_owner().rotation),
 		velocidad_proyectil,
 		danio_proyectil)
 		Eventos.emit_signal("disparo", new_proyectil)

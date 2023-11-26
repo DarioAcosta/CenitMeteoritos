@@ -6,9 +6,11 @@ extends RigidBody2D
 # var b = "text"
 
 onready var canion=$Canion
+onready var laser=$LaserBeam2D
+
 
 export var potencia_motor:int = 20
-export var potencia_rotacion:int=200
+export var potencia_rotacion:int=300
 
 
 var empuje:Vector2=Vector2.ZERO
@@ -22,8 +24,8 @@ func _ready():
 	pass # Replace with function body.
 
 func _integrate_forces(state: Physics2DDirectBodyState) ->void:
-	apply_central_impulse(empuje.rotated(rotation-1.5708))
-	apply_torque_impulse(dir_rotacion*potencia_motor)
+	apply_central_impulse(empuje.rotated(rotation))
+	apply_torque_impulse(dir_rotacion*potencia_rotacion)
 	
 
 	
@@ -37,9 +39,9 @@ func _process(delta):
 func player_input() ->void:
 	empuje=Vector2.ZERO
 	if Input.is_action_pressed("ui_up"):
-		empuje=Vector2(-potencia_motor,0)
-	elif Input.is_action_pressed("ui_down"):
 		empuje=Vector2(potencia_motor,0)
+	elif Input.is_action_pressed("ui_down"):
+		empuje=Vector2(-potencia_motor,0)
 	
 	dir_rotacion=0
 	if Input.is_action_pressed("ui_left"):
@@ -54,7 +56,11 @@ func player_input() ->void:
 		canion.set_esta_disparando(false)
 
 
+	if Input.is_action_pressed("disparo_secundario"):
+		laser.set_is_casting(true)
 
+	if Input.is_action_just_released("disparo_secundario"):
+		laser.set_is_casting(false)
 
 
 
