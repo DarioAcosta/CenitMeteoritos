@@ -1,14 +1,47 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Game/Assets/Sprites/spaceShips_009.png" type="Texture" id=1]
 [ext_resource path="res://Game/Scenes/Naves/Player.gd" type="Script" id=2]
 [ext_resource path="res://Game/Scenes/Canion.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Game/Scenes/LaserBeam/LaserBeam2D.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Game/Scenes/Trail/Trail2D.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Game/Assets/Snd/thrusterFire_001.wav" type="AudioStream" id=6]
 
 [sub_resource type="PhysicsMaterial" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 11, 23.5 )
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "intro"
+length = 2.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 1.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0.5, 0.5 ), Vector2( 0, 0 ), Vector2( 0.5, 0.5 ) ]
+}
 
 [node name="Player" type="RigidBody2D"]
 physics_material_override = SubResource( 2 )
@@ -18,6 +51,26 @@ angular_damp = 6.0
 script = ExtResource( 2 )
 potencia_motor = 200
 potencia_rotacion = 200
+
+[node name="trail1" type="Position2D" parent="."]
+position = Vector2( -16, -10 )
+
+[node name="Trail2D" parent="trail1" instance=ExtResource( 5 )]
+z_index = -20
+is_emitting = true
+lifetime = 0.3
+max_points = 60
+target_path = NodePath("..")
+
+[node name="trail2" type="Position2D" parent="."]
+position = Vector2( -16, 11 )
+
+[node name="Trail2D2" parent="trail2" instance=ExtResource( 5 )]
+z_index = -20
+is_emitting = true
+lifetime = 0.3
+max_points = 60
+target_path = NodePath("..")
 
 [node name="Sprite" type="Sprite" parent="."]
 rotation = -1.5708
@@ -38,5 +91,16 @@ position = Vector2( 21, 19 )
 
 [node name="LaserBeam2D" parent="." instance=ExtResource( 4 )]
 position = Vector2( 18, 0 )
+
+[node name="MotorSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+bus = "fx"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "intro"
+anims/RESET = SubResource( 3 )
+anims/intro = SubResource( 4 )
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
 [editable path="Canion"]
