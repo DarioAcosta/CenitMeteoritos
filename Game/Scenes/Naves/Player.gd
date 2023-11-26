@@ -133,3 +133,10 @@ func danio_effect():
 func _on_Timer_timeout():
 	$Sprite2.set_deferred("visible",false)
 	pass # Replace with function body.
+
+
+func _on_Player_body_entered(body):
+	if body is Meteorito:
+		body.destruir()
+		destruir()
+
