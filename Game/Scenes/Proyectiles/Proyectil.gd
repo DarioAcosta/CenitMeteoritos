@@ -31,3 +31,26 @@ func crear (pos:Vector2, dir:float, vel:float, danio_p:int)->void:
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 	pass # Replace with function body.
+	
+func daniar(otro_cuerpo:CollisionObject2D):
+	if otro_cuerpo.has_method("recibir_danio"):
+		otro_cuerpo.recibir_danio(danio)
+	queue_free()
+
+
+func _on_Proyectil_area_entered(area):
+	daniar(area)
+	
+
+
+
+
+func _on_Proyectil_body_entered(body):
+	daniar(body)
+	pass # Replace with function body.
+
+
+
+
+
+

@@ -18,3 +18,4 @@ environment = ExtResource( 3 )
 
 [node name="Enemy" parent="." instance=ExtResource( 5 )]
 position = Vector2( 729, 434 )
+rotation = -2.28195

@@ -40,7 +40,8 @@ func set_is_casting(cast: bool) -> void:
 	is_casting = cast
 	
 	if is_casting:
-		$AudioStreamPlayer2D.play()
+		if not $AudioStreamPlayer2D.playing :
+			$AudioStreamPlayer2D.play()
 		cast_to = Vector2.ZERO
 		fill.points[1] = cast_to
 		appear()
@@ -69,6 +70,8 @@ func cast_beam() -> void:
 		cast_point = to_local(get_collision_point())
 		collision_particles.global_rotation = get_collision_normal().angle()
 		collision_particles.position = cast_point
+		if get_collider().has_method("recibir_danio"):
+			get_collider().recibir_danio(0.2)
 
 	fill.points[1] = cast_point
 	beam_particles.position = cast_point * 0.5

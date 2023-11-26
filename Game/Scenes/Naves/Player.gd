@@ -8,7 +8,7 @@ enum ESTADO {SPAWN, VIVO, INVENCIBLE, MUERTO}
 onready var canion=$Canion
 onready var laser=$LaserBeam2D
 onready var colisionador=$CollisionShape2D
-
+onready var escudo:Escudo=$Escudo
 export var potencia_motor:int = 20
 export var potencia_rotacion:int=300
 
@@ -16,7 +16,7 @@ export var potencia_rotacion:int=300
 var empuje:Vector2=Vector2.ZERO
 var dir_rotacion:int=0
 var estado_actual:int=ESTADO.SPAWN
-
+var hitpoints:float=5
 
 
 # Called when the node enters the scene tree for the first time.
@@ -76,6 +76,10 @@ func player_input() ->void:
 
 	if Input.is_action_just_released("ui_up") or Input.is_action_just_released("ui_down") or Input.is_action_just_released("ui_left") or Input.is_action_just_released("ui_right") :
 		$MotorSFX.stop()
+		
+	if Input.is_action_pressed("escudo") and not escudo.get_esta_activado():
+		escudo.activar()
+	
 
 func controlador_estados(nuevo_estado):
 	match nuevo_estado:
@@ -112,3 +116,20 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 
 func destruir():
 	controlador_estados(ESTADO.MUERTO)
+
+func recibir_danio(danio):
+	hitpoints-=danio
+	if hitpoints <=0:
+		destruir()
+	else:
+		danio_effect()
+
+func danio_effect():
+	$AudioStreamPlayer.play()
+	$Sprite2.set_deferred("visible",true)
+	$Sprite2/Timer.start()
+
+
+func _on_Timer_timeout():
+	$Sprite2.set_deferred("visible",false)
+	pass # Replace with function body.
