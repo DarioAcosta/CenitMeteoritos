@@ -1,5 +1,5 @@
 extends RigidBody2D
-
+class_name Player
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -88,6 +88,7 @@ func controlador_estados(nuevo_estado):
 		ESTADO.INVENCIBLE:
 			colisionador.set_deferred("disabled", true)
 		ESTADO.MUERTO:
+			Eventos.emit_signal("nave_destruida",global_position)  #me gusta que tenga solo una explosión
 			colisionador.set_deferred("disabled", true)
 			canion.set_puede_disparar(false)
 			queue_free()
@@ -107,3 +108,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name=="intro":
 		controlador_estados(ESTADO.VIVO)
 	 # Replace with function body.
+
+
+func destruir():
+	controlador_estados(ESTADO.MUERTO)
